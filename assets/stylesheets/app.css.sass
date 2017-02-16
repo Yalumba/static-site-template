@@ -1,0 +1,23 @@
+@import compass
+@import compass/css3
+@import config
+@import sass_and_puff
+
+@import devices
+
+@import 'placeholders'
+@import 'vendor/*'
+@import 'components/*'
+
++keyframes(spin)
+  from
+    +transform(rotate(359deg))
+  to
+    +transform(rotate(0deg))
+
+*
+  +box-sizing(border-box)
+
+html
+  background: #F4F4F4
+  min-height: 100%

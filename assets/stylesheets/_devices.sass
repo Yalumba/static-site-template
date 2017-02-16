@@ -1,0 +1,266 @@
+$iphone-portrait: 320px
+$iphone-landscape: 480px
+$ipad-portrait: 768px
+$ipad-landscape: 1024px
+$desktop: 1025px
+$desktop-large: 1280px
+$desktop-huge: 1600px
+
+$viewport-short: 768px
+$viewport-medium: 900px
+$viewport-tall: 1200px
+
+$aspect-skinny: '1/4'
+$aspect-slim: '1/2'
+$aspect-portrait: '2/3'
+$aspect-square: '1/1'
+$aspect-landscape: '3/2'
+$aspect-wide: '2/1'
+$aspect-fat: '4/1'
+
+$aspect-iphone: '2/3'
+$aspect-iphone5: '40/71'
+
+$aspect-touch-desktop: '1280/720'
+
+$breakpoint-small: 415px
+$breakpoint-medium: 768px
+$breakpoint-large: 1024px
+$breakpoint-extra-large: 1920px
+
+$breakpoint-short: 720px
+$breakpoint-tall: 1200px
+
+=orientation-landscape
+  @media only screen and (orientation: landscape)
+    @content
+
+=orientation-portrait
+  @media only screen and (orientation: portrait)
+    @content
+
+// Specific device targeting
+// Use: Only use if you want the style to respond to one device
+// Example:
+//     +respond_to(ipad-landscape)
+// will apply CSS only to an iPad at landscape rotation
+
+=respond-to($device)
+
+  @if $device == iphone
+    @media only screen and (min-width: $iphone-portrait) and (max-width: $iphone-landscape)
+      @content
+
+  @if $device == iphone-landscape
+    @media only screen and (device-width: $iphone-landscape) and (orientation: landscape)
+      @content
+
+  @if $device == iphone-portrait
+    @media only screen and (device-width: $iphone-portrait) and (orientation: portrait)
+      @content
+
+  @if $device == ipad
+    @media only screen and (min-width : 768px) and (max-width : 1024px)
+      @content
+
+  @if $device == ipad-landscape
+    @media only screen and (min-width : 768px) and (max-width : 1024px) and (orientation: landscape)
+      @content
+
+  @if $device == ipad-portrait
+    @media only screen and (min-width : 768px) and (max-width : 1024px) and (orientation: portrait)
+      @content
+
+  @if $device == desktop
+    @media only screen and (min-width: $desktop)
+      @content
+
+  @if $device == desktop-large
+    @media only screen and (min-width: $desktop-large)
+      @content
+
+  @if $device == viewport-short
+    @media only screen and (max-height: $viewport-short)
+      @content
+
+  @if $device == viewport-medium
+    @media only screen and (max-height: $viewport-medium) and (min-height: $viewport-short)
+      @content
+
+  @if $device == viewport-tall
+    @media only screen and (min-height: $viewport-tall)
+      @content
+
+
+
+=respond-to-aspect($ratio)
+  @if $ratio == skinny
+    @media only screen and (min-aspect-ratio: #{$aspect-skinny})
+      @content
+
+  @if $ratio == slim
+    @media only screen and (min-aspect-ratio: #{$aspect-slim}) and (max-aspect-ratio: #{$aspect-skinny})
+      @content
+
+  @if $ratio == portrait
+    @media only screen and (min-aspect-ratio: #{$aspect-portrait}) and (max-aspect-ratio: #{$aspect-slim})
+      @content
+
+  @if $ratio == square
+    @media only screen and (min-aspect-ratio: #{$aspect-square}) and (max-aspect-ratio: #{$aspect-portrait})
+      @content
+
+  @if $ratio == landscape
+    @media only screen and (max-aspect-ratio: #{$aspect-landscape}) and (min-aspect-ratio: #{$aspect-square})
+      @content
+
+  @if $ratio == wide
+    @media only screen and (max-aspect-ratio: #{$aspect-wide}) and (min-aspect-ratio: #{$aspect-landscape})
+      @content
+
+  @if $ratio == fat
+    @media only screen and (max-aspect-ratio: #{$aspect-fat})
+      @content
+
+  @if $ratio == iphone
+    @media only screen and (device-aspect-ratio: #{$aspect-iphone})
+      @content
+
+  @if $ratio == iphone5
+    @media only screen and (device-aspect-ratio: #{$aspect-iphone5})
+      @content
+
+  @if $ratio == touch-desktop
+    @media only screen and (device-aspect-ratio: #{$aspect-touch-desktop})
+      @content
+
+// General device targeting
+// Use: Only use if you want the style to apply to many devices
+// Example:
+//     +apply_to(smaller-than, iphone-portrait)
+// will apply CSS to anything smaller than an iPhone-portrait
+=apply_to($ltgt, $device, $dimension: width)
+
+  $extrema: null
+
+  @if $ltgt == less-than
+    $extrema: max
+
+  @if $ltgt == greater-than
+    $extrema: min
+
+  @if type_of($device) == number
+    @media only screen and (#{$extrema}-#{$dimension}: $device)
+      @content
+  @else
+    @if $device == iphone-landscape
+      @media only screen and (#{$extrema}-#{$dimension}: $iphone-landscape)
+        @content
+
+    @if $device == iphone-portrait
+      @media only screen and (#{$extrema}-#{$dimension}: $iphone-portrait)
+        @content
+
+    @if $device == ipad-landscape
+      @media only screen and (#{$extrema}-#{$dimension}: $ipad-landscape)
+        @content
+
+    @if $device == ipad-portrait
+      @media only screen and (#{$extrema}-#{$dimension}: $ipad-portrait)
+        @content
+
+    @if $device == desktop
+      @media only screen and (#{$extrema}-#{$dimension}: $desktop)
+        @content
+
+    @if $device == desktop-large
+      @media only screen and (#{$extrema}-#{$dimension}: $desktop-large)
+        @content
+
+    @if $device == desktop-huge
+      @media only screen and (#{$extrema}-#{$dimension}: $desktop-huge)
+        @content
+
+
+=apply_to_range($min, $max, $dimension: width)
+
+  @media only screen and (min-#{$dimension} : $min) and (max-#{$dimension} : $max)
+    @content
+
+
+=apply_to_aspect($ltgt, $ratio)
+  $extrema: null
+
+  @if $ltgt == less-than
+    $extrema: max
+
+  @if $ltgt == greater-than
+    $extrema: min
+
+  @if type_of($ratio) == number
+    @media only screen and (#{$extrema}-aspect-ratio: #{$ratio})
+      @content
+  @else
+    @if $ratio == skinny
+      @media only screen and (#{$extrema}-aspect-ratio: #{$aspect-skinny})
+        @content
+
+    @if $ratio == slim
+      @media only screen and (#{$extrema}-aspect-ratio: #{$aspect-slim})
+        @content
+
+    @if $ratio == portrait
+      @media only screen and (#{$extrema}-aspect-ratio: #{$aspect-portrait})
+        @content
+
+    @if $ratio == square
+      @media only screen and (#{$extrema}-aspect-ratio: #{$aspect-square})
+        @content
+
+    @if $ratio == landscape
+      @media only screen and (#{$extrema}-aspect-ratio: #{$aspect-landscape})
+        @content
+
+    @if $ratio == wide
+      @media only screen and (#{$extrema}-aspect-ratio: #{$aspect-wide})
+        @content
+
+    @if $ratio == fat
+      @media only screen and (#{$extrema}-aspect-ratio: #{$aspect-fat})
+        @content
+
+$devices: (iphone, iphone-landscape, iphone-portrait, ipad, ipad-landscape, ipad-portrait, desktop, desktop-large)
+$vertical-viewports: (viewport-short, viewport-medium, viewport-tall)
+$aspects: (skinny, slim, portrait, square, landscape, wide, fat)
+
+=for-small
+  +for-breakpoint(less-than, $breakpoint-small)
+    @content
+  
+=for-medium
+  +between-breakpoints($breakpoint-small, $breakpoint-large)
+    @content
+
+=for-large
+  +for-breakpoint(greater-than, $breakpoint-large + 1)
+    @content
+
+=for-extra-large
+  +for-breakpoint(greater-than, $breakpoint-extra-large + 1)
+    @content
+
+=for-medium-and-large
+  +for-breakpoint(greater-than, $breakpoint-small + 1)
+    @content
+
+=for-small-and-medium
+  +for-breakpoint(less-than, $breakpoint-large - 1)
+    @content
+
+=for-short
+  +for-breakpoint(less-than, $breakpoint-short, false, height)
+    @content
+
+=for-tall
+  +for-breakpoint(greater-than, $breakpoint-tall + 1, false, height)
+    @content
